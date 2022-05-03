@@ -151,3 +151,79 @@ CREATE TABLE likes (
 
 INSERT INTO likes VALUES (DEFAULT, 2, 1, NULL);
 INSERT INTO likes VALUES (DEFAULT, 1, NULL, 1);
+
+ALTER TABLE users ADD COLUMN passport_number VARCHAR(10);
+
+ALTER TABLE users MODIFY COLUMN passport_number VARCHAR(20);
+
+ALTER TABLE users RENAME COLUMN passport_number TO passport;
+
+ALTER TABLE users ADD INDEX passport_idx (passport);
+
+ALTER TABLE users DROP INDEX passport_idx;
+
+ALTER TABLE users DROP COLUMN passport;
+
+ALTER TABLE friend_requests ADD CONSTRAINT CHECK (from_user_id != to_user_id);
+
+ALTER TABLE users ADD CONSTRAINT CHECK (REGEXP_LIKE(phone, '^[0-9]{11}$'));
+
+ALTER TABLE profiles ADD CONSTRAINT fk_profiles_media FOREIGN KEY (photo_id) REFERENCES media (id);
+
+ALTER TABLE profiles MODIFY COLUMN photo_id BIGINT UNSIGNED DEFAULT NULL UNIQUE;
+
+INSERT users (id, firstname, lastname, phone, email, password_hash, created_at, update_at)
+VALUES (DEFAULT, 'Oleg', 'Rusin', '89054335344', 'oleg@yandex.ru', '543hihhg534h', DEFAULT, DEFAULT);
+
+INSERT INTO users (firstname, lastname, phone, email, password_hash)
+VALUES ('Vacheslav', 'Yandaev', '89990345786', 'yandaev@inbox.ru', '4g523j5hjg3k2');
+
+INSERT users VALUES (DEFAULT, 'Daria', 'Bazurina', '89059871654', 'bazurina@gmail.com', 'g543hkg543', DEFAULT, DEFAULT);
+
+INSERT INTO users (firstname, lastname, email, phone) SELECT name, surname, email, phone FROM test1.users;
+
+INSERT INTO users (firstname, lastname, phone, email, password_hash) VALUES ('Denis', 'Osyanin', '89067895643', 'osyanin@yahoo.com', 'gjdklghui43t3nkjgne'),
+                                                                            ('Orehova', 'Irina', '89538903212', 'orehova@rumbler.ru', 'grehnjk532kjgnerjk');
+
+INSERT users SET
+                 firstname = 'Evgeniy',
+                 lastname = 'Medvedev',
+                 phone = '89063478125',
+                 email = 'medvedev@mail.ru';
+
+SELECT lastname, firstname, phone FROM users;
+
+SELECT firstname FROM users;
+
+SELECT DISTINCT firstname FROM users;
+
+SELECT * FROM users WHERE firstname = 'Аноним';
+
+SELECT * FROM users WHERE id >= 85 AND id <=100 AND firstname = 'Елена';
+
+SELECT * FROM users WHERE id BETWEEN 85 AND 100;
+
+SELECT CONCAT(lastname, ' ', SUBSTR(firstname, 1, 1), '.') AS username, phone FROM users;
+
+SELECT * FROM users LIMIT 4;
+
+SELECT * FROM users LIMIT 5 OFFSET 10;
+
+SELECT * FROM users LIMIT 10, 5;
+
+SELECT * FROM users ORDER BY lastname ASC;
+
+SELECT * FROM users ORDER BY lastname DESC;
+
+INSERT INTO messages (from_user_id, to_user_id, message) VALUES (38, 72, 'Hi man');
+INSERT INTO messages (from_user_id, to_user_id, message) VALUES (38, 72, 'Lets jump');
+
+SELECT * FROM messages;
+
+UPDATE messages SET message = 'Hug me' WHERE id = 4;
+
+UPDATE messages SET status_message = TRUE;
+
+DELETE FROM users WHERE lastname = 'Иванов' OR  lastname = 'Ivanov';
+
+TRUNCATE TABLE communities_users;
