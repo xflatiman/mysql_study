@@ -108,3 +108,46 @@ CREATE TABLE media (
 
 INSERT INTO media VALUES (DEFAULT, 1, 2, 'travel_photo.jpg', 100, DEFAULT);
 INSERT INTO media(user_id, media_type_id, file_name, file_size) VALUES (2, 1, 'linkin_park-numb.mp4', 37);
+
+CREATE TABLE posts (
+    id SERIAL PRIMARY KEY,
+    from_user_id BIGINT UNSIGNED NOT NULL,
+    title_post VARCHAR(255),
+    text_post TEXT,
+    media_id BIGINT UNSIGNED,
+    FOREIGN KEY (from_user_id) REFERENCES users(id)
+);
+
+INSERT INTO posts(from_user_id, text_post, media_id) VALUES (1, 'Недавно путшествовал и сделал красивое фото!', 1);
+INSERT INTO posts VALUES (DEFAULT, 2, 'Площадка GB, интересная статья', 'Вчера узнала о образавательной площадке GB и мне скинули интересную статью, кому интересно - пишите в личку!', NULL);
+
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    from_user_id BIGINT UNSIGNED NOT NULL,
+    to_user_id BIGINT UNSIGNED,
+    to_post_id BIGINT UNSIGNED,
+    to_communities_id BIGINT UNSIGNED,
+    to_comments_id BIGINT UNSIGNED,
+    text_comments TEXT,
+    FOREIGN KEY (from_user_id) REFERENCES users(id),
+    FOREIGN KEY (to_post_id) REFERENCES posts(id),
+    FOREIGN KEY (to_user_id) REFERENCES users(id),
+    FOREIGN KEY (to_communities_id) REFERENCES communities(id),
+    FOREIGN KEY (to_comments_id) REFERENCES comments(id)
+);
+
+INSERT INTO comments VALUES (DEFAULT, 2, 1, 1, NULL, NULL, 'Вау! Фото действительно крутое!');
+INSERT INTO comments VALUES (DEFAULT, 1, 2, NULL, NULL, 1, 'Спасибо, я знал, что ты оценишь!');
+
+CREATE TABLE likes (
+    id SERIAL PRIMARY KEY,
+    from_user_id BIGINT UNSIGNED NOT NULL,
+    to_post_id BIGINT UNSIGNED,
+    to_comments_id BIGINT UNSIGNED,
+    FOREIGN KEY (from_user_id) REFERENCES users(id),
+    FOREIGN KEY (to_post_id) REFERENCES posts(id),
+    FOREIGN KEY (to_comments_id) REFERENCES comments(id)
+);
+
+INSERT INTO likes VALUES (DEFAULT, 2, 1, NULL);
+INSERT INTO likes VALUES (DEFAULT, 1, NULL, 1);
