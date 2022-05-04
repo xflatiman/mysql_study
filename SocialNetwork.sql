@@ -166,7 +166,7 @@ ALTER TABLE users DROP COLUMN passport;
 
 ALTER TABLE friend_requests ADD CONSTRAINT CHECK (from_user_id != to_user_id);
 
-ALTER TABLE users ADD CONSTRAINT CHECK (REGEXP_LIKE(phone, '^[0-9]{11}$'));
+/*ALTER TABLE users ADD CONSTRAINT CHECK (REGEXP_LIKE(phone, '^[0-9]{11}$'));*/
 
 ALTER TABLE profiles ADD CONSTRAINT fk_profiles_media FOREIGN KEY (photo_id) REFERENCES media (id);
 
@@ -185,7 +185,7 @@ INSERT INTO users (firstname, lastname, email, phone) SELECT name, surname, emai
 INSERT INTO users (firstname, lastname, phone, email, password_hash) VALUES ('Denis', 'Osyanin', '89067895643', 'osyanin@yahoo.com', 'gjdklghui43t3nkjgne'),
                                                                             ('Orehova', 'Irina', '89538903212', 'orehova@rumbler.ru', 'grehnjk532kjgnerjk');
 
-INSERT users SET
+/*INSERT users SET
                  firstname = 'Evgeniy',
                  lastname = 'Medvedev',
                  phone = '89063478125',
@@ -214,6 +214,7 @@ SELECT * FROM users LIMIT 10, 5;
 SELECT * FROM users ORDER BY lastname ASC;
 
 SELECT * FROM users ORDER BY lastname DESC;
+  */
 
 INSERT INTO messages (from_user_id, to_user_id, message) VALUES (38, 72, 'Hi man');
 INSERT INTO messages (from_user_id, to_user_id, message) VALUES (38, 72, 'Lets jump');
@@ -226,4 +227,91 @@ UPDATE messages SET status_message = TRUE;
 
 DELETE FROM users WHERE lastname = 'Иванов' OR  lastname = 'Ivanov';
 
-TRUNCATE TABLE communities_users;
+TRUNCATE TABLE profiles;
+
+INSERT IGNORE profiles (user_id, gender, birthday_at, photo_id, country, city) SELECT id, gender, birthday, photo_id, hometown, hometown FROM test1.users
+
+SELECT * FROM media_types;
+
+INSERT INTO media VALUES (DEFAULT, 5, 2, 'avatarka_5id.jpg', 11, DEFAULT),
+                         (DEFAULT, 8, 1, 'Sum41 - Dear Father.mp4', 4, DEFAULT),
+                         (DEFAULT, 12, 2, 'Реферат.docx', 1, DEFAULT),
+                         (DEFAULT, 15, 2, 'photo_mountains.jpg', 15, DEFAULT),
+                         (DEFAULT, 22, 2, 'Perfect-moment.jpg', 13, DEFAULT),
+                         (DEFAULT, 83, 2, 'Old_Nizhniy.jpg', 8, DEFAULT),
+                         (DEFAULT, 101, 1, 'Martin Garrix - Animals.mp4', 6, DEFAULT),
+                         (DEFAULT, 3, 2, 'AFP IS COOOOOL.jpg', 19, DEFAULT),
+                         (DEFAULT, 4, 3, 'Диплом.docx', 6, DEFAULT);
+
+INSERT INTO communities (name, description, admin_id) VALUES ('Афиша - AFP', 'Вся инфа и расписание об AFP', 3),
+                                                             ('Nizhniy-Novgorod', NULL, 83),
+                                                             ('Кто сказал, что старое хуже нового?', '*Раньше было лучше', 8),
+                                                             ('GB', 'Хочешь войти в айти? заходи к нам и покупай курсы!', 1),
+                                                             ('English for Everyone', 'Учимся английскому по простому', 189),
+                                                             ('Отзовник', 'Есть о чем-то оставить отзыв? тебе к нам!', 67),
+                                                             ('Красивые места', NULL, 89),
+                                                             ('Красивые парни', 'Фото самых красивых мужчин на планете, что за лапочки', 69),
+                                                             ('Готовим вкусно в Гордоном Рамзи!', NULL, 33);
+
+INSERT IGNORE communities_users VALUES (1, 2),
+                                     (1, 3),
+                                     (1, 4),
+                                     (1, 83),
+                                     (1, 99),
+                                     (2, 2),
+                                     (2, 3),
+                                     (2, 4),
+                                     (2, 83),
+                                     (2, 99);
+
+INSERT INTO friend_requests VALUES (1, 3, FALSE),
+                                   (1, 4, 0),
+                                   (1, 5, 1),
+                                   (83, 1, TRUE),
+                                   (85, 1, TRUE),
+                                   (99, 1, 1),
+                                   (101, 1, 1),
+                                   (103, 1, 1),
+                                   (57, 1, 1);
+
+INSERT INTO messages(from_user_id, to_user_id, message) VALUES (1, 2, 'Привет!'),
+                                                               (1, 2, 'Как дела?'),
+                                                               (1, 2, 'Перейдем на английский?'),
+                                                               (2, 1, 'Привет, дела хорошо, ты как?'),
+                                                               (2, 1, 'Не, для английского сегодня настроения нет'),
+                                                               (83, 1, 'Ого, я думал не подтвердишь заявку, круто!'),
+                                                               (101, 83, 'Вступай в группу!'),
+                                                               (57, 101, 'Прими заявку, хочу в группу вступить'),
+                                                               (99, 85, 'Пойдешь на АФП в этом году?'),
+                                                               (85, 99, 'Ага');
+
+INSERT INTO posts(from_user_id, title_post, text_post, media_id)
+VALUES (1, NULL, 'Интересно, сколько лайков соберет этот пост?', NULL),
+       (2, NULL, 'Хм, второй пользователь ВК, интересно, наберет эта соц.сеть популярность?', NULL),
+       (101, 'Приглашение в группу', 'Всем привет! Вступайте в мою группу!', NULL),
+       (3, 'AFP', 'AFP - пожалуй лучшее, что может быть', NULL),
+       (8, 'SUM41', 'Одна из самых легендарных песен этой группы!', 4),
+       (4, 'Диплом', 'Ох уж этот диплом...', NULL),
+       (2, NULL, 'Вот послушайте неплохой трек', 2),
+       (101, 'Тречок', 'Мартин Гаррикс такой милашка!', 9);
+
+SELECT * FROM likes;
+
+INSERT INTO likes(from_user_id, to_post_id, to_comments_id) VALUES (2, 3, NULL),
+                                                                   (3, 3, NULL),
+                                                                   (4, 3, NULL),
+                                                                   (5, 3, NULL),
+                                                                   (101, 3, NULL),
+                                                                   (83, 3, NULL),
+                                                                   (69, 3, NULL),
+                                                                   (8, 3, NULL);
+
+INSERT INTO comments(from_user_id, to_user_id, to_post_id, to_communities_id, to_comments_id, text_comments)
+VALUES (1, NULL, 4, NULL, NULL, 'Обязательно!'),
+       (1, NULL, 4, NULL, NULL, 'Обязательно!'),
+       (1, NULL, 4, NULL, NULL, 'Обязательно!'),
+       (1, NULL, 4, NULL, NULL, 'Обязательно!'),
+       (1, NULL, 4, NULL, NULL, 'Обязательно!'),
+       (1, NULL, 4, NULL, NULL, 'Обязательно!'),
+       (1, NULL, 4, NULL, NULL, 'Обязательно!'),
+       (1, NULL, 4, NULL, NULL, 'Обязательно!');
