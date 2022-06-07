@@ -317,4 +317,3 @@ VALUES (1, NULL, 4, NULL, NULL, 'Обязательно!'),
        (1, NULL, 4, NULL, NULL, 'Обязательно!'),
        (1, NULL, 4, NULL, NULL, 'Обязательно!'),
        (1, NULL, 4, NULL, NULL, 'Обязательно!');
-
