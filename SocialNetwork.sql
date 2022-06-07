@@ -223,13 +223,13 @@ SELECT * FROM messages;
 
 UPDATE messages SET message = 'Hug me' WHERE id = 4;
 
-UPDATE messages SET status_message = TRUE;
+UPDATE messages SET  status_message  = TRUE;
 
 DELETE FROM users WHERE lastname = 'Иванов' OR  lastname = 'Ivanov';
 
 TRUNCATE TABLE profiles;
 
-INSERT IGNORE profiles (user_id, gender, birthday_at, photo_id, country, city) SELECT id, gender, birthday, photo_id, hometown, hometown FROM test1.users
+INSERT IGNORE profiles (user_id, gender, birthday_at, photo_id, country, city) SELECT id, gender, birthday, photo_id, hometown, hometown FROM test1.users;
 
 SELECT * FROM media_types;
 
@@ -243,15 +243,16 @@ INSERT INTO media VALUES (DEFAULT, 5, 2, 'avatarka_5id.jpg', 11, DEFAULT),
                          (DEFAULT, 3, 2, 'AFP IS COOOOOL.jpg', 19, DEFAULT),
                          (DEFAULT, 4, 3, 'Диплом.docx', 6, DEFAULT);
 
-INSERT INTO communities (name, description, admin_id) VALUES ('Афиша - AFP', 'Вся инфа и расписание об AFP', 3),
-                                                             ('Nizhniy-Novgorod', NULL, 83),
-                                                             ('Кто сказал, что старое хуже нового?', '*Раньше было лучше', 8),
-                                                             ('GB', 'Хочешь войти в айти? заходи к нам и покупай курсы!', 1),
-                                                             ('English for Everyone', 'Учимся английскому по простому', 189),
-                                                             ('Отзовник', 'Есть о чем-то оставить отзыв? тебе к нам!', 67),
-                                                             ('Красивые места', NULL, 89),
-                                                             ('Красивые парни', 'Фото самых красивых мужчин на планете, что за лапочки', 69),
-                                                             ('Готовим вкусно в Гордоном Рамзи!', NULL, 33);
+INSERT INTO communities (name, description, admin_id)
+VALUES ('Афиша - AFP', 'Вся инфа и расписание об AFP', 3),
+       ('Nizhniy-Novgorod', NULL, 83),
+       ('Кто сказал, что старое хуже нового?', '*Раньше было лучше', 8),
+       ('GB', 'Хочешь войти в айти? заходи к нам и покупай курсы!', 1),
+       ('English for Everyone', 'Учимся английскому по простому', 189),
+       ('Отзовник', 'Есть о чем-то оставить отзыв? тебе к нам!', 67),
+       ('Красивые места', NULL, 89),
+       ('Красивые парни', 'Фото самых красивых мужчин на планете, что за лапочки', 69),
+       ('Готовим вкусно в Гордоном Рамзи!', NULL, 33);
 
 INSERT IGNORE communities_users VALUES (1, 2),
                                      (1, 3),
@@ -274,16 +275,17 @@ INSERT INTO friend_requests VALUES (1, 3, FALSE),
                                    (103, 1, 1),
                                    (57, 1, 1);
 
-INSERT INTO messages(from_user_id, to_user_id, message) VALUES (1, 2, 'Привет!'),
-                                                               (1, 2, 'Как дела?'),
-                                                               (1, 2, 'Перейдем на английский?'),
-                                                               (2, 1, 'Привет, дела хорошо, ты как?'),
-                                                               (2, 1, 'Не, для английского сегодня настроения нет'),
-                                                               (83, 1, 'Ого, я думал не подтвердишь заявку, круто!'),
-                                                               (101, 83, 'Вступай в группу!'),
-                                                               (57, 101, 'Прими заявку, хочу в группу вступить'),
-                                                               (99, 85, 'Пойдешь на АФП в этом году?'),
-                                                               (85, 99, 'Ага');
+INSERT INTO messages(from_user_id, to_user_id, message)
+VALUES (1, 2, 'Привет!'),
+       (1, 2, 'Как дела?'),
+       (1, 2, 'Перейдем на английский?'),
+       (2, 1, 'Привет, дела хорошо, ты как?'),
+       (2, 1, 'Не, для английского сегодня настроения нет'),
+       (83, 1, 'Ого, я думал не подтвердишь заявку, круто!'),
+       (101, 83, 'Вступай в группу!'),
+       (57, 101, 'Прими заявку, хочу в группу вступить'),
+       (99, 85, 'Пойдешь на АФП в этом году?'),
+       (85, 99, 'Ага');
 
 INSERT INTO posts(from_user_id, title_post, text_post, media_id)
 VALUES (1, NULL, 'Интересно, сколько лайков соберет этот пост?', NULL),
